@@ -219,6 +219,25 @@ function isDigit(value) {
   }
 }
 
+// 判断是否为json
+function isJSON(str) {
+  if (typeof str == "string") {
+    try {
+      var obj = JSON.parse(str);
+      if (typeof obj == "object" && obj) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log("error：" + str + "!!!" + e);
+      return false;
+    }
+  }
+  console.log("It is not a string!");
+  return false;
+}
+
 // 判断具体类型
 function getType(a) {
   var typeArray = Object.prototype.toString.call(a).split(" ");
@@ -488,3 +507,40 @@ function deepClone(val, wm = new WeakMap()) {
   }
   return _instance;
 }
+
+// 后退刷新
+window.addEventListener(
+  "pageshow",
+  function (event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+      location.reload();
+    }
+  },
+  false
+);
+
+// 解决微信调整字体大小导致页面乱
+// ios系统：
+/* 
+body{
+			-webkit-text-size-adjust: 100% !important;
+			text-size-adjust: 100% !important;
+			-moz-text-size-adjust: 100% !important;
+	}
+*/
+// 安卓系统：
+function handleFontSize() {
+  // 设置网页字体为默认大小
+  WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+  // 重写设置网页字体大小的事件
+  WeixinJSBridge.on("menu:setfont", function () {
+    WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
+  });
+}
+$(function () {
+  if (typeof WeixinJSBridge == "undefined") {
+    document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+  } else {
+    handleFontSize();
+  }
+});

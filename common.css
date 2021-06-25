@@ -94,3 +94,31 @@ input:-moz-placeholder {
 @media screen and (orientation: landscape) {
   /*横屏 css*/
 }
+
+/* 媒体查询 */
+@media all and (min-width: 320px) {
+  body {
+    background-color: blue;
+  }
+}
+
+/* css增加底部安全距离 刘海屏 */
+
+/* 
+safe-area-inset-left：安全区域距离左边边界距离
+safe-area-inset-right：安全区域距离右边边界距离
+safe-area-inset-top：安全区域距离顶部边界距离
+safe-area-inset-bottom：安全区域距离底部边界距离
+*/
+
+/* 当 viewport-fit=contain 时 env() 是不起作用的，必须要配合 viewport-fit=cover 使用。对于不支持env() 的浏览器，浏览器将会忽略它。 */
+/* 只有设置了 viewport-fit=cover，才能使用 env()。 */
+/* <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"> */
+padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+/* 注意：env() 跟 constant() 需要同时存在，而且顺序不能换。 */
+
+html {
+  height: calc(60px (假设值) + constant(safe-area-inset-bottom));
+  height: calc(60px (假设值) + env(safe-area-inset-bottom));
+}
