@@ -19,24 +19,26 @@ html {
   cursor: not-allowed;
 
   /* 阻止默认事件 */
-  pointer-events:none;
+  pointer-events: none;
 
   /* 去掉输入框聚焦时候的白色背景 */
   -webkit-user-modify: read-write-plaintext-only;
 
   /* input:focus时input不随软键盘升起而抬高的情况 */
-  :focus{-webkit-tap-highlight-color:rgba(255, 255, 255, 0);
-  -webkit-user-modify:read-write-plaintext-only;}
+  :focus {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-user-modify: read-write-plaintext-only;
+  }
 
   /* IOS iframe 滚动 滚动回弹特效 */
-  -webkit-overflow-scrolling:touch;overflow-y:scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 
   /* 禁止选中文本 */
-  -moz-user-select:none;
-  -webkit-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* 去掉Webkit(chrome)浏览器中input(文本框)或textarea的黄色焦点框 */
@@ -57,13 +59,26 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-align: justify;
+  overflow: hidden;
+}
 
 /* 取消a链接的黄色边框 */
-a{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 
 /* placeholder占位符颜色自定义 */
-input:-moz-placeholder {color: #369;}
-::-webkit-input-placeholder {color:#369;}
+input:-moz-placeholder {
+  color: #369;
+}
+::-webkit-input-placeholder {
+  color: #369;
+}
 
 /* HTML5手机浏览直接给一个号码打电话，发短信 */
 <a href="tel:15222222222">移动WEB页面JS一键拨打号码咨询功能</a>
@@ -75,7 +90,7 @@ input:-moz-placeholder {color: #369;}
 /* CSS判断横屏竖屏 */
 @media screen and (orientation: portrait) {
   /*竖屏 css*/
-} 
+}
 @media screen and (orientation: landscape) {
   /*横屏 css*/
 }
