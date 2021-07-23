@@ -484,6 +484,15 @@ function getQueryVariable(variable) {
   var r = location.search.substr(1).match(reg);
   return r ? decodeURIComponent(r[2]) : null;
 }
+const urlSP = new URLSearchParams(location.search);
+function getQueryString(key){
+    return urlSP.get(key)
+}
+const urlObj = new URL(location.href);
+function getQueryString(key){
+    return urlObj.searchParams.get(key)
+}
+
 
 // 格式化金额， 千分位
 function toThousands(val) {
@@ -491,6 +500,13 @@ function toThousands(val) {
   val = String(val);
   return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+// toLocaleString千分位   注意：如果是超大的数，可能是会有问题的。
+function formatMoney(num){
+  return (+num).toLocaleString("en-US");
+}
+// console.log(formatMoney(123456789));  // 123,456,789
+// 超大的数
+// formatMoney(19999999933333333333333) // 19,999,999,933,333,333,000,000
 
 // 深拷贝
 function deepClone(val, wm = new WeakMap()) {
@@ -544,3 +560,47 @@ $(function () {
     handleFontSize();
   }
 });
+
+// 基于atob和btoa的base64编码和解码
+function utf8_to_b64( str ) {
+  return window.btoa(unescape(encodeURIComponent( str )));
+}
+
+function b64_to_utf8( str ) {
+  return decodeURIComponent(escape(window.atob( str )));
+}
+
+// 原生30行代码实现视频截图
+function captureVideo(videoEl) {
+  let canvasEl;
+  let dataUrl;
+  try {
+      const cps = window.getComputedStyle(videoEl);
+      const width = +cps.getPropertyValue("width").replace("px", "");
+      const height = +cps.getPropertyValue("height").replace("px", "");
+
+      canvasEl = document.createElement("canvas");
+      canvasEl.style.cssText = `position:fixed;left:-9999px`;
+      canvasEl.height = height;
+      canvasEl.width = width;
+
+      document.body.appendChild(canvasEl);
+      
+      const ctx = canvasEl.getContext("2d");
+      ctx.drawImage(videoEl, 0, 0, width, height);
+      // const image = canvas.toDataURL("image/png");
+      dataUrl = canvasEl.toDataURL();
+
+      document.body.removeChild(canvasEl);
+      canvasEl = null;
+      return dataUrl;
+  } finally {
+      if (canvasEl) {
+          document.body.removeChild(canvasEl);
+      }
+      if (dataUrl) {
+          return dataUrl;
+      }
+  }
+}
+
