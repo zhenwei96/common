@@ -498,7 +498,7 @@ function getQueryString(key){
 function toThousands(val) {
   if (!isDigit(val)) return "";
   val = String(val);
-  return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");   // 匹配非单词边界 匹配3的倍数个数字 后面不能再跟着数字
 }
 // toLocaleString千分位   注意：如果是超大的数，可能是会有问题的。
 function formatMoney(num){
